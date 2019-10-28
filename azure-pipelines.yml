@@ -1,0 +1,44 @@
+trigger:
+- master
+
+pool: NautilusBuild
+
+variables:
+  solution: '**/*.sln'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+  displayName: Restore sln
+
+- task: MSBuild@1
+  inputs:
+    solution: '**/*.sln'
+    clean: true
+  displayName: Build sln
+
+- task: CmdLine@2
+  inputs:
+    script: '$(System.DefaultWorkingDirectory)\src\packages\Pickles.CommandLine.2.20.1\tools\pickles.exe --feature-directory=$(System.DefaultWorkingDirectory)\\src\\ --output-directory=$(System.DefaultWorkingDirectory)\\src\\Pickles.GeneratedDocumentation --system-under-test-name="Pickles Demo Project" --system-under-test-version=2.0.1beta --documentation-format=dhtml'
+  displayName: Generate Pickles Documentation
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)\src\Pickles.GeneratedDocumentation'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: Publish Pickles Artifact to pipeline
+
+- task: AzureFileCopy@3
+  inputs:
+    SourcePath: '$(System.DefaultWorkingDirectory)\src\Pickles.GeneratedDocumentation'
+    azureSubscription: 'Living Documentation'
+    Destination: 'AzureBlob'
+    storage: '$(AzureStorageAccount)'
+    ContainerName: '$web/$(Build.Repository.Name)'
+  displayName: Publish Pickles Artifact to Azure Blob Storage
+
+  
