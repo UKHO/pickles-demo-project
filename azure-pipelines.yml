@@ -27,7 +27,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: '${Agent.WorkFolder}\chocolatey\lib\pickles\tools\pickles.exe --feature-directory=$(System.DefaultWorkingDirectory)\\src\\ --output-directory=$(System.DefaultWorkingDirectory)\\src\\Pickles.GeneratedDocumentation --system-under-test-name="Pickles Demo Project" --system-under-test-version=2.0.1beta --documentation-format=dhtml'
+    script: 'C:\ProgramData\chocolatey\lib\pickles\tools\pickles.exe --feature-directory=$(System.DefaultWorkingDirectory)\\src\\ --output-directory=$(System.DefaultWorkingDirectory)\\src\\Pickles.GeneratedDocumentation --system-under-test-name="Pickles Demo Project" --system-under-test-version=2.0.1beta --documentation-format=dhtml'
   displayName: Generate Pickles Documentation
 
 - task: PublishBuildArtifacts@1
