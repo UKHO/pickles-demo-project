@@ -22,7 +22,12 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: '$(System.DefaultWorkingDirectory)\src\packages\Pickles.CommandLine.2.20.1\tools\pickles.exe --feature-directory=$(System.DefaultWorkingDirectory)\\src\\ --output-directory=$(System.DefaultWorkingDirectory)\\src\\Pickles.GeneratedDocumentation --system-under-test-name="Pickles Demo Project" --system-under-test-version=2.0.1beta --documentation-format=dhtml'
+    script: choco install pickles
+  displayName: Install Pickles via Choco
+
+- task: CmdLine@2
+  inputs:
+    script: 'C:\ProgramData\chocolatey\lib\pickles\tools\pickles.exe --feature-directory=$(System.DefaultWorkingDirectory)\\src\\ --output-directory=$(System.DefaultWorkingDirectory)\\src\\Pickles.GeneratedDocumentation --system-under-test-name="Pickles Demo Project" --system-under-test-version=2.0.1beta --documentation-format=dhtml'
   displayName: Generate Pickles Documentation
 
 - task: PublishBuildArtifacts@1
