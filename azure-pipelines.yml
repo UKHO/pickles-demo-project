@@ -40,7 +40,7 @@ steps:
 - task: AzureFileCopy@3
   inputs:
     SourcePath: '$(System.DefaultWorkingDirectory)\src\Pickles.GeneratedDocumentation'
-    azureSubscription: '$(AzureSubscriptionName)'
+    azureSubscription: 'Test Engineering Live - P19732'
     Destination: 'AzureBlob'
     storage: '$(AzureStorageAccount)'
     ContainerName: '$web/$(Build.Repository.Name)'
